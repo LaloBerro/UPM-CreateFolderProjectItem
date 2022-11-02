@@ -1,4 +1,5 @@
 using System.IO;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace DefaultNamespace
             EditorApplication.projectWindowItemOnGUI += DrawAssetDetails;
         }
 
-        private static void DrawAssetDetails(string guid, Rect rect)
+        private static async void DrawAssetDetails(string guid, Rect rect)
         {
             string directoryPath = AssetDatabase.GetAssetPath(Selection.activeObject);
             string thisItemPath = AssetDatabase.GUIDToAssetPath(guid);
@@ -32,6 +33,11 @@ namespace DefaultNamespace
                 AssetDatabase.Refresh();
 
                 Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(newFolderPath);
+
+                await Task.Delay(1);
+
+                var e = new Event { keyCode = KeyCode.F2, type = EventType.KeyDown };
+                EditorWindow.focusedWindow.SendEvent(e);
             }
 
         }
