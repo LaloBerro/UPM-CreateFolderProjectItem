@@ -1,5 +1,4 @@
 using System.IO;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ namespace DefaultNamespace
             EditorApplication.projectWindowItemOnGUI += DrawAssetDetails;
         }
 
-        private static async void DrawAssetDetails(string guid, Rect rect)
+        private static void DrawAssetDetails(string guid, Rect rect)
         {
             string directoryPath = AssetDatabase.GetAssetPath(Selection.activeObject);
             string thisItemPath = AssetDatabase.GUIDToAssetPath(guid);
@@ -27,19 +26,24 @@ namespace DefaultNamespace
 
             if (GUI.Button(rect, EditorGUIUtility.IconContent("d_ol_plus"), EditorStyles.iconButton))
             {
-                string newFolderPath = Path.Combine(directoryPath, "NewFolder");
+                string newFolderPath = Path.Combine(directoryPath, "New Folder");
                 Directory.CreateDirectory(newFolderPath);
 
                 AssetDatabase.Refresh();
 
+                Selection.selectionChanged += ActiveRename;
+
                 Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(newFolderPath);
-
-                await Task.Delay(1);
-
-                var e = new Event { keyCode = KeyCode.F2, type = EventType.KeyDown };
-                EditorWindow.focusedWindow.SendEvent(e);
             }
 
+        }
+
+        private static void ActiveRename()
+        {
+            Selection.selectionChanged -= ActiveRename;
+
+            var keyEvent = new Event { keyCode = KeyCode.F2, type = EventType.KeyDown };
+            EditorWindow.focusedWindow.SendEvent(keyEvent);
         }
     }
 }
