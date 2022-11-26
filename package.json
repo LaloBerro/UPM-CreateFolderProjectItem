@@ -1,7 +1,7 @@
 {
-  "name": "com.tgl.createfolderprojectitem",
+  "name": "com.lalo.createfolderprojectitem",
   "version": "1.0.3",
-  "displayName": "TGL - Editor - CreateFolderProjectItem",
+  "displayName": "CreateFolderProjectItem",
   "unity": "2020.3",
   "unityRelease": "0b5",
   "documentationUrl": "",
@@ -9,7 +9,7 @@
   "licensesUrl": "",
   "keywords": [],
   "author": {
-    "name": "TGL",
+    "name": "Lalo",
     "email": "",
     "url": ""
   },
